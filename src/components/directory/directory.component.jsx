@@ -5,7 +5,7 @@ import MenuItem from '../menu-item/menu-item.component';
 import './directory.styles.scss';
 
 const Directory = () => {
-  const [sections, setSections] = useState([
+  const [sections] = useState([
     {
       title: 'hats',
       imageUrl: 'https://i.ibb.co/cvpntL1/hats.png',
