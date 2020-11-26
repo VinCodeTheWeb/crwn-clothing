@@ -36,7 +36,6 @@ const App = () => {
     };
   }, []);
 
-  console.log(currentUser);
   return (
     <Router>
       <>

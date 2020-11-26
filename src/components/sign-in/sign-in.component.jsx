@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../cutsom-button/custom-button.component';
 
-import { signInWithGoogle } from '../../firebase/firebase.utils';
+import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
 
 import './sign-in.styles.scss';
 
@@ -13,13 +13,23 @@ const SignIn = () => {
     password: '',
   });
 
-  const handleSubmit = (e) => {
+  const { email, password } = credentials;
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setCredentials({
-      ...credentials,
-      email: '',
-      password: '',
-    });
+
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+
+      setCredentials({
+        ...credentials,
+        email: '',
+        password: '',
+      });
+
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const handleChange = (e) => {
@@ -38,7 +48,7 @@ const SignIn = () => {
       <form onSubmit={handleSubmit}>
         <FormInput label='email' name='email' type='email' value={credentials.email} handleChange={handleChange} required />
         
-        <FormInput label='password' name='password' type='passowrd' value={credentials.password} handleChange={handleChange} required />
+        <FormInput label='password' name='password' type='passwo rd' value={credentials.password} handleChange={handleChange} required />
         
         <div className="buttons">
         <CustomButton type="submit">Sign in</CustomButton>
