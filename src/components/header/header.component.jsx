@@ -2,6 +2,9 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import CartIcon from '../cart-icon/cart-icon.component';
+import CartDropdown from '../cart-dropdown/cart-dropdown.component';
+
 import { auth } from '../../firebase/firebase.utils';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
@@ -11,7 +14,8 @@ import './header.styles.scss';
 
 const Header = () => {
   const dispatch = useDispatch();
-  const { currentUser } = useSelector(state => state.user);
+  const { user: { currentUser }, cart: { hidden} } = useSelector(state => state);
+  
 
   const disconnect = async () => {
     await auth.signOut()
@@ -38,7 +42,10 @@ const Header = () => {
         <Link className='option' to='/contact'>
           CONTACT
         </Link>
+        <CartIcon />
       </div>
+
+      {!hidden && <CartDropdown />}
     </div>
   )
 }
