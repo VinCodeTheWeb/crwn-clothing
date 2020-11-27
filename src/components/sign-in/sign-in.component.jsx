@@ -48,7 +48,7 @@ const SignIn = () => {
       <form onSubmit={handleSubmit}>
         <FormInput label='email' name='email' type='email' value={credentials.email} handleChange={handleChange} required />
         
-        <FormInput label='password' name='password' type='passwo rd' value={credentials.password} handleChange={handleChange} required />
+        <FormInput label='password' name='password' type='password' value={credentials.password} handleChange={handleChange} required />
         
         <div className="buttons">
         <CustomButton type="submit">Sign in</CustomButton>
