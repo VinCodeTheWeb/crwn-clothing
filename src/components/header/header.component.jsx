@@ -27,8 +27,6 @@ const Header = () => {
     await auth.signOut()
     dispatch(setCurrentUser(null))
   };
-
-  console.log(hidden);
   
   return (
     <div className="header">
