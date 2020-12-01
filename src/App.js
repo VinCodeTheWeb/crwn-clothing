@@ -1,22 +1,29 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
 
 import './App.css';
 
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
+import CheckoutPage from './pages/checkout/checkout.component.jsx';
+
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 
 import Header from './components/header/header.component';
 
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { setCurrentUser } from './redux/user/user.actions';
-import SignIn from './components/sign-in/sign-in.component';
+import { selectCurrentUser } from './redux/user/user.selectors';
 
 const App = () => {
   const dispatch = useDispatch();
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector(
+    createStructuredSelector({
+      currentUser: selectCurrentUser,
+    })
+  );
 
   useEffect(() => {
     let unsubscribeFromAuth = null;
@@ -54,6 +61,7 @@ const App = () => {
             path='/signin'
             render={() => (currentUser ? <Redirect to='/' /> : <SignInAndSignUpPage />)}
           />
+          <Route exact path='/checkout' component={CheckoutPage} />
         </Switch>
       </>
     </Router>
