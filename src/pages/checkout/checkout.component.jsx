@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { createStructuredSelector  } from 'reselect';
 
 import CheckoutItem from '../../components/checkout-item/checkout-item.component';
@@ -8,16 +8,12 @@ import { selectCartItems, selectCartTotal } from '../../redux/cart/cart.selector
 
 import './checkout.styles.scss';
 
-const Checkout = ({ cartItem }) => {
-
-  const dispatch = useDispatch();
+const Checkout = () => {
 
   const { cartItems, total } = useSelector(createStructuredSelector({
     cartItems: selectCartItems,
     total: selectCartTotal
   }));
-
-
 
   return (
     <div className="checkout-page">

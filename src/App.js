@@ -47,7 +47,7 @@ const App = () => {
     return () => {
       unsubscribeFromAuth();
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <Router>
