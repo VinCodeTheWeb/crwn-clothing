@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-
 import './App.css';
 
 import HomePage from './pages/homepage/homepage.component';
@@ -13,15 +12,21 @@ import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up
 
 import Header from './components/header/header.component';
 
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+import {
+  auth,
+  createUserProfileDocument,
+  addCollectionAndDocuments,
+} from './firebase/firebase.utils';
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
+import { selectCollectionsForPreview } from './redux/shop/shop.selectors';
 
 const App = () => {
   const dispatch = useDispatch();
-  const { currentUser } = useSelector(
+  const { currentUser, collectionArray } = useSelector(
     createStructuredSelector({
       currentUser: selectCurrentUser,
+      collectionArray: selectCollectionsForPreview,
     })
   );
 
@@ -42,6 +47,10 @@ const App = () => {
       } else {
         setCurrentUser(userAuth);
       }
+      addCollectionAndDocuments(
+        'collections',
+        collectionArray.map(({ title, items }) => ({ title, items }))
+      );
     });
 
     return () => {
