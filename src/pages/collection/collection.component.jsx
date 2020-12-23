@@ -9,7 +9,6 @@ import CollectionItem from '../../components/collection-item/collection-item.com
 import { selectCollection } from '../../redux/shop/shop.selectors';
 
 const CollectionPage = ({ match }) => {
-
   const { collections } = useSelector(createStructuredSelector({
     collections: selectCollection(match.params.collectionId)
   }))

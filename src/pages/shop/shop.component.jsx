@@ -1,30 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { Route } from 'react-router-dom';
 
 import WithSpinner from '../../components/with-spinner/with-spinner.component';
 import CollectionOverview from '../../components/collection-overview/colletion-overview.component';
 import CollectionyPage from '../collection/collection.component';
 
-import { firestore, converCollectionsSnapshotToMap } from '../../firebase/firebase.utils';
-import { updateCollections } from '../../redux/shop/shop.actions';
+import { fetchCollectionsStart } from '../../redux/shop/shop.actions';
+import { selectIsCollectionFetching, selectIsCollectionLoaded } from '../../redux/shop/shop.selectors';
 
 const CollectionsOverviewWithSpinner = WithSpinner(CollectionOverview)
 const CollectionsPageWithSpinner = WithSpinner(CollectionyPage);
 
 const ShopPage = ({ match }) => {
+  
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(true);
+
+  const { isFetching, collections } = useSelector(createStructuredSelector({
+    isFetching: selectIsCollectionFetching,
+    collections: selectIsCollectionLoaded
+  }))
 
   useEffect(() => {
-    const collectionRef = firestore.collection('collections');
-
-    collectionRef.onSnapshot(async snapshot => {
-      const collectionsMap = converCollectionsSnapshotToMap(snapshot);
-
-      dispatch(updateCollections(collectionsMap));
-      setIsLoading(false);
-    })
+    dispatch(fetchCollectionsStart());
   }, []);
 
   return (
@@ -32,11 +31,11 @@ const ShopPage = ({ match }) => {
       <Route
         exact
         path={`${match.path}`}
-        render={(props) => <CollectionsOverviewWithSpinner isLoading={isLoading} {...props} />}
+        render={(props) => <CollectionsOverviewWithSpinner isLoading={isFetching} {...props} />}
       />
       <Route
         path={`${match.path}/:collectionId`}
-        render={(props) => <CollectionsPageWithSpinner isLoading={isLoading} {...props} /> } />
+        render={(props) => <CollectionsPageWithSpinner isLoading={!collections} {...props} /> } />
     </div>
   )
 }

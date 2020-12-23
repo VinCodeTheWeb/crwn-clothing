@@ -8,12 +8,13 @@ import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import { auth } from '../../firebase/firebase.utils';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 
-import { setCurrentUser } from '../../redux/user/user.actions';
 import { selectCartHidden } from '../../redux/cart/cart.selectors';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
+import { signOutStart } from '../../redux/user/user.actions';
 
 import './header.styles.scss';
 import { HeaderContainer, LogoContainer, OptionContainer, OptionLink } from './header.styles';
+
 const Header = () => {
   const dispatch = useDispatch();
   const { currentUser, hidden } = useSelector(createStructuredSelector({
@@ -21,11 +22,8 @@ const Header = () => {
     hidden: selectCartHidden
   }));
   
-
-  const disconnect = async () => {
-    await auth.signOut()
-    dispatch(setCurrentUser(null))
-  };
+  
+  const disconnect = () => dispatch(signOutStart());
   
   return (
     <HeaderContainer>
