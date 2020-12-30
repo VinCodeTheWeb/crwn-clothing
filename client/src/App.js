@@ -27,7 +27,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(checkUserSession());
-  }, []);
+  }, [checkUserSession]);
 
   return (
     <Router>
