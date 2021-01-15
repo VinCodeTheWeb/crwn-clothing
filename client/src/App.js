@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-import './App.css';
 
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
@@ -15,6 +14,8 @@ import Header from './components/header/header.component';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import { selectCollectionsForPreview } from './redux/shop/shop.selectors';
 import { checkUserSession } from './redux/user/user.actions';
+
+import { GlobalStyle } from './global.styles';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const App = () => {
 
   return (
     <Router>
+      <GlobalStyle />
       <>
         <Header />
         <Switch>
